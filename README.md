@@ -127,7 +127,74 @@ Stop the ping activity
  8.) The next thing we are going to do is Observe SSH Traffic.
  
  
- 
+
+### Observing SSH Traffic
+
+1.) Open Wireshark and set a filter for SSH traffic (`tcp.port == 22`).
+
+2.) Retrieve the private IP address of the Ubuntu VM and attempt to establish an SSH connection from the Windows 10 VM.
+   
+   ```bash
+   ssh username@10.0.0.5
+   ```
+
+3.) Observe the SSH handshake and encrypted session in Wireshark.
+
+4.) Disconnect the SSH session and disable inbound SSH traffic from the Network Security Group of the Ubuntu VM.
+
+5.) Attempt to reconnect via SSH from Windows 10; observe the failed connection attempt in Wireshark.
+
+6.) Re-enable inbound SSH traffic and confirm that the SSH connection can be re-established.
+
+### Observing DHCP Traffic
+
+1.) Set a filter in Wireshark for DHCP traffic (`bootp`).
+
+2.) Renew the IP address on the Windows VM using the following command:
+   
+   ```powershell
+   ipconfig /release
+   ipconfig /renew
+   ```
+
+3.) Observe the DHCP Discover, Offer, Request, and Acknowledgment packets in Wireshark.
+
+### Observing DNS Traffic
+
+1.) Set a filter in Wireshark for DNS traffic (`dns`).
+
+2.) From the Windows VM, run the following command to resolve a domain:
+   
+   ```powershell
+   nslookup google.com
+   ```
+
+3.) Observe the DNS query and response packets in Wireshark.
+
+4.) Disable outbound DNS traffic in the Network Security Group and attempt another `nslookup` command.
+
+5.) Observe the failed DNS resolution in Wireshark.
+
+6.) Re-enable DNS traffic and confirm successful resolution.
+
+### Observing RDP Traffic
+
+1.) Set a filter in Wireshark for RDP traffic (`tcp.port == 3389`).
+
+2.) Establish a Remote Desktop Connection from a local computer to the Windows 10 VM.
+
+3.) Observe the RDP session establishment and encrypted data transfer in Wireshark.
+
+4.) Disable inbound RDP traffic in the Network Security Group and attempt to reconnect.
+
+5.) Observe the failed RDP connection in Wireshark.
+
+6.) Re-enable RDP traffic and confirm successful reconnection.
+
+### Conclusion
+
+This tutorial demonstrated how to monitor and analyze various types of network traffic using Wireshark, as well as how Network Security Groups can be used to control traffic between Azure Virtual Machines. By observing ICMP, SSH, DHCP, DNS, and RDP traffic, we gained insights into network behavior and security configurations in Azure.
+
 
  
  
